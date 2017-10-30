@@ -3,7 +3,9 @@
 
 Go inside Docker to container /var/www/html directory and run 
 
-        require slim/slim "^3.0" --no-dev
+        require slim/slim "^3.0"
+
+## A) Manual app creation
 
 Exit container and give rights to your user
 
@@ -16,6 +18,20 @@ Add `.htaccess` to html `directory` file with:
         RewriteCond %{REQUEST_FILENAME} !-d
         RewriteRule ^ index.php [QSA,L]
 
+## B) Automatic app creation
+
+Add your app location to Dockerfile, changing Apache root
+
+Go inside Docker to container /var/www/html directory and run 
+
+        composer create-project slim/slim-skeleton app
+
+Exit container and give rights to your user
+
+        chown -R user:group *
+
+
 # TODO
 
-- Move app and document root to ./public ?
+- Move app and document root one level down to /var/www/app/public ??
+
