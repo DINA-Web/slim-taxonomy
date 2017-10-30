@@ -17,6 +17,7 @@ apt-get -y install unzip zlib1g-dev nano #git
 
 # Add php extensions / modules
 RUN docker-php-ext-install zip
+RUN docker-php-ext-install pdo pdo_mysql
 
 # Add composer
 RUN curl -sS https://getcomposer.org/installer | php
@@ -29,8 +30,8 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN a2enmod rewrite
 
 # Change Apache root to Slim default
-#ENV APACHE_DOCUMENT_ROOT /var/www/html/app/public
-RUN sed -ri -e 's!/var/www/html!/var/www/html/app/public!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!/var/www/html/app/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+ENV APACHE_DOCUMENT_ROOT /var/www/html/app/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 WORKDIR /var/www/
