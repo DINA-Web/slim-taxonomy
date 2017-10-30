@@ -9,7 +9,7 @@ services:
 
     db:
         image: mysql:5.7
-
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         # Note that if you change user/password env variables, they won't be taken into account on restart, unless you first delete the local data directory: "none of the variables below will have any effect if you start the container with a data directory that already contains a database: any pre-existing database will always be left untouched on container startup." ...and the pre-existing database is persisted on the host.
         env_file: ./env/.env-mysql
         ports:
