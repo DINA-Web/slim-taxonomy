@@ -1,0 +1,16 @@
+
+# Use root/example as user/password credentials
+version: '3.1'
+
+# To rebuild:
+# docker-compose up --build
+
+services:
+
+    backend:
+        build: .
+        image: mikkohei13/php-slim:0.1
+        ports:
+            - 90:80
+        volumes:
+            - ./www:/var/www
