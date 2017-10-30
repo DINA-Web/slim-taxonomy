@@ -16,3 +16,6 @@ Add `.htaccess` to html `directory` file with:
         RewriteCond %{REQUEST_FILENAME} !-d
         RewriteRule ^ index.php [QSA,L]
 
+# TODO
+
+- Move app and document root to ./public ?
