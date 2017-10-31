@@ -16,7 +16,32 @@ Allow writing to monolog directory
         chmod a+w /var/www/html/app/logs/app.log
 
 
-# TODO
+# Notes
 
-- Move app and document root one level down to /var/www/app/public ??
+- Todo: ? Move app and document root one level down to /var/www/app/public ??
+
+Database dumps:
+
+        mysqldump -u taxonomyuser -p taxonomy > taxonomy1.sql
+
+Import with DataGrip
+- Importing Extinct to TINYINT UNSIGNED failed, but converting the column to VARCHAR(5), importing data and then converting the column back to TINYINT UNSIGNED worked.
+
+Import with DBeaver
+- Imports only some fields, complains field truncation even if field lengths are ok
+
+LU_RUBIN
+
+Missing detailed info, including rank:
+1748	4500000		Människoapor	Hominidae
+1749	4550000			Hominidae
+
+Missing rank:
+Marsupialia
+Mammalia
+
+Duplicate rubinno:
+7801503
+-> 78015030 & 78015031
+
 
