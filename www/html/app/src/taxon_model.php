@@ -69,13 +69,15 @@ Class Taxon
             }
 
             // Synonyms
-            $synonymsArrHTML = explode(";", $data['Synonyms']);
-            $n = 0;
-            foreach($synonymsArrHTML as $key => $synonymHTML) {
-                $synonymArr = explode("</i>", $synonymHTML);
-                $attributes['synonyms'][$n]['species_ephithet'] = trim(str_replace("<i>", "", $synonymArr[0]));
-                $attributes['synonyms'][$n]['author'] = trim($synonymArr[1]);
-                $n++;
+            if (! empty($data['Synonyms'])) {
+                $synonymsArrHTML = explode(";", $data['Synonyms']);
+                $n = 0;
+                foreach($synonymsArrHTML as $key => $synonymHTML) {
+                    $synonymArr = explode("</i>", $synonymHTML);
+                    $attributes['synonyms'][$n]['species_ephithet'] = trim(str_replace("<i>", "", $synonymArr[0]));
+                    @$attributes['synonyms'][$n]['author'] = trim($synonymArr[1]); // Suppress errors resulting from inconsistent synonym data (missing </i>)
+                    $n++;
+                }
             }
 
             // Other data
