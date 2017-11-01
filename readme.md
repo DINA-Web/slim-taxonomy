@@ -42,6 +42,11 @@ Mammalia
 
 Duplicate rubinno:
 7801503
--> 78015030 & 78015031
+7550618
+etc...
+
+MSW contains somewhat messy data. Now this is cleaned in the API
+- Uppercase order etc. names
+- html in some fields (<i>)
 
 
