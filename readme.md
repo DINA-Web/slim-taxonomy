@@ -57,3 +57,34 @@ Example species:
 10300011 Sir David ... no synonyms
 
 Only works with species.
+
+JSON-API way of creating the URL pattern seems to be
+- Choose either singular or plural, then use that consistently. May workshop suggested singular ("taxon").
+- /taxon/{id} should return the taxon with {id}
+        - What to do if the id is HTTP-URI or contains slashes? /taxon/http://tun.fi/MX.123
+- /taxon/filter[scientific_name]=Mus
+
+SHOULD HAVE
+- Full scientifi name in one field -> easy to do autocomplete
+
+
+Copy data to temp table:
+
+
+        INSERT INTO binomialTemp (MSW_ID, speciesBinomial)
+        SELECT MSW_ID, CONCAT(mammal_msw.Genus, " ", mammal_msw.Species)
+        FROM mammal_msw
+        WHERE
+        mammal_msw.TaxonLevel = "SPECIES"
+        ;
+
+Copy from temp to production table:
+
+
+        UPDATE `mammal_msw` be
+        JOIN `binomialTemp` fdb ON fdb.`MSW_ID` = be.`MSW_ID`
+        SET be.`SpeciesBinomial` = fdb.`speciesBinomial`;
+        ;
+
+
+

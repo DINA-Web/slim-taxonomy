@@ -27,20 +27,16 @@ Class Taxon
         return $this->taxonToJSONAPIArray($taxon, $withParent);
     }
 
-    public function fetchName($name, $withParent = TRUE) {
-
-        $nameParts = explode(" ", $name);
+    public function fetchName($name, $withParent = TRUE, $search_type = "full") {
 
         $sql = "
             SELECT *
             FROM mammal_msw
-            WHERE Genus=:genus
-            AND Species=:species_epithet
+            WHERE SpeciesBinomial=:name
             LIMIT 1
         ";
         $statement = $this->db->prepare($sql);
-        $statement->bindValue(":genus", $nameParts[0], PDO::PARAM_INT);
-        $statement->bindValue(":species_epithet", $nameParts[1], PDO::PARAM_INT);
+        $statement->bindValue(":name", $name, PDO::PARAM_INT);
         $statement->execute();
 
         $taxon = $statement->fetch(); // Expecting only one row
