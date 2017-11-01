@@ -48,5 +48,7 @@ etc...
 MSW contains somewhat messy data. Now this is cleaned in the API
 - Uppercase order etc. names
 - html in some fields (<i>)
+- synonyms cannot be parsed trivially, since the field has diverse contents
 
+TODO: synonym field is truncated, make field longer
 

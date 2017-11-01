@@ -26,7 +26,7 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
 
     if ("SPECIES" == $data['TaxonLevel']) {
 
-        // Get parent
+        // Parent taxon
         $sql = "
             SELECT *
             FROM mammal_msw
@@ -41,6 +41,7 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
         $attributes['parent']['scientific_name'] = $parentData['Genus'];
         $attributes['parent']['rank'] = strtolower($parentData['TaxonLevel']);
         
+        // Higher taxa
         $attributes['higherTaxa']['order'] = ucfirst(strtolower($data['Order']));
         $attributes['higherTaxa']['suborder'] = ucfirst(strtolower($data['Suborder']));
         $attributes['higherTaxa']['infraorder'] = ucfirst(strtolower($data['Infraorder']));
@@ -51,11 +52,12 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
         $attributes['higherTaxa']['genus'] = $data['Genus'];
         $attributes['higherTaxa']['subgenus'] = $data['Subgenus'];
 
+        // Taxon
         $attributes['rank'] = strtolower($data['TaxonLevel']);
         $attributes['scientific_name'] = $data['Genus'] . " " . $data['Species'];
         $attributes['author'] = $data['Author'];
         $attributes['author_date'] = $data['AuthorDate'];
-       
+               
         if ("YES" == $data['ValidName']) {
             $attributes['valid_name'] = TRUE;
         }
@@ -66,6 +68,20 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
         if (!empty($data["CommonName"])) {
             $attributes['verncular_names']['en'][] = $data["CommonName"];
         }
+
+        // Synonyms
+        $synonymsArrHTML = explode(";", $data['Synonyms']);
+        $n = 0;
+        foreach($synonymsArrHTML as $key => $synonymHTML) {
+            $synonymArr = explode("</i>", $synonymHTML);
+            $attributes['synonyms'][$n]['species_ephithet'] = trim(str_replace("<i>", "", $synonymArr[0]));
+            $attributes['synonyms'][$n]['author'] = trim($synonymArr[1]);
+            $n++;
+        }
+
+        // Other data
+        $attributes['sort_order'] = $data['SortOrder'];
+        
     }
 //    $attributes = $data; // debug - see full data from db
 
