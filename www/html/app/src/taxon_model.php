@@ -16,6 +16,7 @@ Class Taxon
             SELECT *
             FROM mammal_msw
             WHERE MSW_ID=:id
+            LIMIT 1
         ";
         $statement = $this->db->prepare($sql);
         $statement->bindValue(":id", $id, PDO::PARAM_INT);
@@ -35,6 +36,7 @@ Class Taxon
             FROM mammal_msw
             WHERE Genus=:genus
             AND Species=:species_epithet
+            LIMIT 1
         ";
         $statement = $this->db->prepare($sql);
         $statement->bindValue(":genus", $nameParts[0], PDO::PARAM_INT);
@@ -59,6 +61,7 @@ Class Taxon
                     FROM mammal_msw
                     WHERE TaxonLevel = 'GENUS'
                     AND Genus = '" . $taxon['Genus'] . "'
+                    LIMIT 1
                 ";
                 $statement = $this->db->prepare($sql);
                 $statement->execute();
