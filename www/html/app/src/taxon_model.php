@@ -98,4 +98,27 @@ Class Taxon
         return $res;
     }
 
+    public function fetchName($name) {
+
+        $nameParts = explode(" ", $name);
+
+        $sql = "
+            SELECT MSW_ID
+            FROM mammal_msw
+            WHERE Genus=:genus
+            AND Species=:species_epithet
+        ";
+        $statement = $this->db->prepare($sql);
+        $statement->bindValue(":genus", $nameParts[0], PDO::PARAM_INT);
+        $statement->bindValue(":species_epithet", $nameParts[1], PDO::PARAM_INT);
+        $statement->execute();
+
+        $data = $statement->fetch(); // Expecting only one row
+
+        $taxonData = $this->fetchTaxon($data['MSW_ID']);
+
+        return $taxonData;
+
+    }
+
 }

@@ -20,3 +20,18 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
     // Render index view
 //    return $this->renderer->render($response, 'index.phtml', $args);
 });
+
+$app->get('/taxonsearch/{name}', function (Request $request, Response $response, array $args) {
+    $name = $request->getAttribute('name'); // TODO: data security - does this sanitize the string?
+    $this->logger->info("Route /taxonsearch/$name");
+
+    require_once "taxon_model.php";
+    $taxon = new Taxon($this->get('db'));
+    $taxonData = $taxon->fetchName($name);
+    
+    header('Content-Type: application/json');
+    return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
+
+    // Render index view
+//    return $this->renderer->render($response, 'index.phtml', $args);
+});
