@@ -9,90 +9,19 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
     $id = $request->getAttribute('id'); // TODO: data security - does this sanitize the string?
     $this->logger->info("Route /taxon/$id");
 
+    require_once "taxon_model.php";
+    $taxon = new Taxon($this->get('db'));
+    $taxonData = $taxon->fetchTaxon($id);
+    
+    
+    header('Content-Type: application/json');
+    return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
+
+
 //    return "Taxon id is " . $id; // debug
 // id 13001562 = Mus musculus
 
-    $db = $this->get('db');
-    $sql = "
-        SELECT *
-        FROM mammal_msw
-        WHERE MSW_ID=:id
-    ";
-    $statement = $db->prepare($sql);
-    $statement->bindValue(":id", $id, PDO::PARAM_INT);
-    $statement->execute();
-
-    $data = $statement->fetch(); // Expecting only one row
-
-    if ("SPECIES" == $data['TaxonLevel']) {
-
-        // Parent taxon
-        $sql = "
-            SELECT *
-            FROM mammal_msw
-            WHERE TaxonLevel = 'GENUS'
-            AND Genus = '" . $data['Genus'] . "'
-        ";
-        $statement = $db->prepare($sql);
-        $statement->execute();
-        $parentData = $statement->fetch(); // Expecting only one row
-        
-        $attributes['parent']['id'] = $parentData['MSW_ID'];
-        $attributes['parent']['scientific_name'] = $parentData['Genus'];
-        $attributes['parent']['rank'] = strtolower($parentData['TaxonLevel']);
-        
-        // Higher taxa
-        $attributes['higherTaxa']['order'] = ucfirst(strtolower($data['Order']));
-        $attributes['higherTaxa']['suborder'] = ucfirst(strtolower($data['Suborder']));
-        $attributes['higherTaxa']['infraorder'] = ucfirst(strtolower($data['Infraorder']));
-        $attributes['higherTaxa']['superfamily'] = $data['Superfamily'];
-        $attributes['higherTaxa']['family'] = $data['Family'];
-        $attributes['higherTaxa']['subfamily'] = $data['Subfamily'];
-        $attributes['higherTaxa']['tribe'] = $data['Tribe'];
-        $attributes['higherTaxa']['genus'] = $data['Genus'];
-        $attributes['higherTaxa']['subgenus'] = $data['Subgenus'];
-
-        // Taxon
-        $attributes['rank'] = strtolower($data['TaxonLevel']);
-        $attributes['scientific_name'] = $data['Genus'] . " " . $data['Species'];
-        $attributes['author'] = $data['Author'];
-        $attributes['author_date'] = $data['AuthorDate'];
-               
-        if ("YES" == $data['ValidName']) {
-            $attributes['valid_name'] = TRUE;
-        }
-        else {
-            $attributes['valid_name'] = FALSE;
-        }
-
-        if (!empty($data["CommonName"])) {
-            $attributes['verncular_names']['en'][] = $data["CommonName"];
-        }
-
-        // Synonyms
-        $synonymsArrHTML = explode(";", $data['Synonyms']);
-        $n = 0;
-        foreach($synonymsArrHTML as $key => $synonymHTML) {
-            $synonymArr = explode("</i>", $synonymHTML);
-            $attributes['synonyms'][$n]['species_ephithet'] = trim(str_replace("<i>", "", $synonymArr[0]));
-            $attributes['synonyms'][$n]['author'] = trim($synonymArr[1]);
-            $n++;
-        }
-
-        // Other data
-        $attributes['sort_order'] = $data['SortOrder'];
-        
-    }
-//    $attributes = $data; // debug - see full data from db
-
-    $res['jsonapi']['version'] = "1.0";
-    $res['meta']['Source'] = "Mammal Species of the World";
-    $res['data']['type'] = "taxon";
-    $res['data']['id'] = $id;
-    $res['data']['attributes'] = $attributes;
-
-    header('Content-Type: application/json');
-    return json_encode($res, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
+//    $db = $this->get('db');
 
     /*
     while($row = $PDOStatement->fetch()) {
@@ -100,7 +29,7 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
     }
     */
 
-    print_r ($data);
+//    print_r ($data);
 
     // Render index view
 //    return $this->renderer->render($response, 'index.phtml', $args);
