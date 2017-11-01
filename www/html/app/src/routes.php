@@ -17,20 +17,6 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
     header('Content-Type: application/json');
     return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
 
-
-//    return "Taxon id is " . $id; // debug
-// id 13001562 = Mus musculus
-
-//    $db = $this->get('db');
-
-    /*
-    while($row = $PDOStatement->fetch()) {
-        $data[] = $row;
-    }
-    */
-
-//    print_r ($data);
-
     // Render index view
 //    return $this->renderer->render($response, 'index.phtml', $args);
 });

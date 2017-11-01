@@ -52,3 +52,6 @@ MSW contains somewhat messy data. Now this is cleaned in the API
 
 TODO: synonym field is truncated, make field longer
 
+Example species:
+13001562 Mus musculus
+10300011 Sir David ... no synonyms

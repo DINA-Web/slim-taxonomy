@@ -11,7 +11,7 @@ Class Taxon
         $this->db = $db;
     }
 
-    public function fetchTaxon($id) {
+    public function fetchTaxon($id, $withParent = TRUE) {
         $sql = "
             SELECT *
             FROM mammal_msw
@@ -25,21 +25,24 @@ Class Taxon
 
         if ("SPECIES" == $data['TaxonLevel']) {
 
-            // Parent taxon
-            $sql = "
-                SELECT *
-                FROM mammal_msw
-                WHERE TaxonLevel = 'GENUS'
-                AND Genus = '" . $data['Genus'] . "'
-            ";
-            $statement = $this->db->prepare($sql);
-            $statement->execute();
-            $parentData = $statement->fetch(); // Expecting only one row
-            
-            $attributes['parent']['id'] = $parentData['MSW_ID'];
-            $attributes['parent']['scientific_name'] = $parentData['Genus'];
-            $attributes['parent']['rank'] = strtolower($parentData['TaxonLevel']);
-            
+            if ($withParent) {
+
+                // Parent taxon
+                $sql = "
+                    SELECT *
+                    FROM mammal_msw
+                    WHERE TaxonLevel = 'GENUS'
+                    AND Genus = '" . $data['Genus'] . "'
+                ";
+                $statement = $this->db->prepare($sql);
+                $statement->execute();
+                $parentData = $statement->fetch(); // Expecting only one row
+                
+                $attributes['parent']['id'] = $parentData['MSW_ID'];
+                $attributes['parent']['scientific_name'] = $parentData['Genus'];
+                $attributes['parent']['rank'] = strtolower($parentData['TaxonLevel']);
+            }
+        
             // Higher taxa
             $attributes['higherTaxa']['order'] = ucfirst(strtolower($data['Order']));
             $attributes['higherTaxa']['suborder'] = ucfirst(strtolower($data['Suborder']));
