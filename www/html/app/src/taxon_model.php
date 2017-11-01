@@ -3,12 +3,14 @@
 Class Taxon
 {
     var $db;
-
+    var $logger;
+    
 	// ------------------------------------------------------------------------
 	// Constructor	
-	public function __construct($db)
+	public function __construct($db, $logger)
 	{
         $this->db = $db;
+        $this->logger = $logger;
     }
 
     public function fetchTaxon($id, $withParent = TRUE) {
@@ -29,17 +31,30 @@ Class Taxon
 
     public function fetchName($name, $withParent = TRUE, $search_type = "full") {
 
-        $sql = "
-            SELECT *
-            FROM mammal_msw
-            WHERE SpeciesBinomial=:name
-            LIMIT 1
-        ";
-        $statement = $this->db->prepare($sql);
-        $statement->bindValue(":name", $name, PDO::PARAM_INT);
+        if ("partial" == $search_type) {
+            $sql = "
+                SELECT *
+                FROM mammal_msw
+                WHERE SpeciesBinomial LIKE :name
+                LIMIT 100
+            ";
+            $statement = $this->db->prepare($sql);
+            $statement->bindValue(":name", ('%'.$name.'%'), PDO::PARAM_INT);
+        }
+        else {
+            $sql = "
+                SELECT *
+                FROM mammal_msw
+                WHERE SpeciesBinomial=:name
+                LIMIT 100
+                ";
+            $statement = $this->db->prepare($sql);
+            $statement->bindValue(":name", $name, PDO::PARAM_INT);
+        }
         $statement->execute();
+        $this->logger->info("Query matched " . $statement->rowCount() . " rows");
 
-        $taxon = $statement->fetch(); // Expecting only one row
+        $taxon = $statement->fetch(); // Expecting only one row, so taking only the first
 
 //        exit(print_r($taxon)); // debug
 
