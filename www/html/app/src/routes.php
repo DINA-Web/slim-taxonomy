@@ -14,13 +14,15 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
 
     $db = $this->get('db');
     $sql = "
-    SELECT *
-    FROM mammal_msw
-    WHERE MSW_ID = $id
+        SELECT *
+        FROM mammal_msw
+        WHERE MSW_ID=:id
     ";
+    $statement = $db->prepare($sql);
+    $statement->bindValue(":id", $id, PDO::PARAM_INT);
+    $statement->execute();
 
-    $PDOStatement = $db->query($sql);
-    $data = $PDOStatement->fetch(); // Expecting only one row
+    $data = $statement->fetch(); // Expecting only one row
 
     /*
     while($row = $PDOStatement->fetch()) {
