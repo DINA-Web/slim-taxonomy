@@ -86,7 +86,7 @@ Copy from temp to production table:
         SET be.`SpeciesBinomial` = fdb.`speciesBinomial`;
         ;
 
-Example requests:
+## Example requests:
 
 - http://localhost:90/taxon/13001562 // House mouse
 - http://localhost:90/taxon/10300011 // Sir David's... without synonyms
@@ -94,6 +94,9 @@ Example requests:
 - http://localhost:90/taxon/?filter[name]=Mus%20mus&search_type=partial
 - http://localhost:90/taxon/?filter[name]=Mus%20musculus&search_type=exact
 - http://localhost:90/taxon/?filter[name]=Mus%20musculus // defaults to exact
+
+- http://localhost:90/taxon/123 // nonexistent id
+- http://localhost:90/taxon/?filter[name]=Foo%20bar&search_type=exact // nonexistent name
 
 ## TODO
 

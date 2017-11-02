@@ -25,9 +25,10 @@ Class Taxon
         $statement = $this->db->prepare($sql);
         $statement->bindValue(":id", $id, PDO::PARAM_INT);
         $statement->execute();
-        $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMITing to $limit");
+        $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMIT set to $limit");
         
         // Can potentially return multiple taxa having (incorrectly) the same id
+        $taxa = Array();        
         while ($row = $statement->fetch()) {
             $taxa[] = $row;            
         }
@@ -60,8 +61,9 @@ Class Taxon
             $statement->bindValue(":name", $name, PDO::PARAM_INT);
         }
         $statement->execute();
-        $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMITing to $limit");
+        $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMIT set to $limit");
 
+        $taxa = Array();
         while ($row = $statement->fetch()) {
             $taxa[] = $row;            
         }
@@ -71,6 +73,8 @@ Class Taxon
 
     public function taxonToJSONAPIArray($taxa, $withParent) {
         $taxonN = 0;
+        $res['data'] = Array();
+
         foreach ($taxa as $key => $taxon) {
             if ($withParent) {
 
@@ -143,8 +147,9 @@ Class Taxon
     //    $attributes = $taxon; // debug - see full data from db
 
         $res['jsonapi']['version'] = "1.0";
-        $res['meta']['Source'] = "Mammal Species of the World";
-
+        $res['meta']['source'] = "Mammal Species of the World";
+        $res['meta']['number_of_records_returned'] = $taxonN;
+        
         return $res;
     }
 }
