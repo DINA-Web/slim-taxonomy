@@ -147,6 +147,7 @@ Class Taxon
             }
 
             // Synonyms
+            /*
             if (! empty($taxon['Synonyms'])) {
                 $synonymsArrHTML = explode(";", $taxon['Synonyms']);
                 $n = 0;
@@ -157,6 +158,7 @@ Class Taxon
                     $n++;
                 }
             }
+            */
 
             // Other data
             $attributes['sort_order'] = $taxon['SortOrder'];
