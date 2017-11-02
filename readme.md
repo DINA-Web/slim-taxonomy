@@ -86,6 +86,18 @@ Copy from temp to production table:
         SET be.`SpeciesBinomial` = fdb.`speciesBinomial`;
         ;
 
+Example requests:
 
+- http://localhost:90/taxon/13001562 // House mouse
+- http://localhost:90/taxon/10300011 // Sir David's... without synonyms
 
+- http://localhost:90/taxon/?filter[name]=Mus%20mus&search_type=partial
+- http://localhost:90/taxon/?filter[name]=Mus%20musculus&search_type=exact
+- http://localhost:90/taxon/?filter[name]=Mus%20musculus // defaults to exact
 
+## TODO
+
+- Check if msw duplicates
+- Add handling for nonmatching id's and names
+- Add rubin codes
+- Blueprint & validation with Dredd
