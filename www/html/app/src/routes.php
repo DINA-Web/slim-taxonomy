@@ -9,12 +9,13 @@ use Slim\Http\Response;
 $app->get('/taxon/{id}', function (Request $request, Response $response, array $args) {
     $id = $request->getAttribute('id'); // TODO: data security - does this sanitize the string?
 
-    $this->logger->info("Route /taxon/ $id");
+    ($this->mylog)("NEW Route /taxon/ $id");
 
     require_once "taxon_model.php";
-    $taxon = new Taxon($this->get('db'), $this->logger);
+    $taxon = new Taxon($this->get('db'), $this->mylog);
     $taxonData = $taxon->fetchTaxon($id);
     
+    ($this->mylog)("END");
     header('Content-Type: application/json');
     return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
 
@@ -33,12 +34,13 @@ $app->get('/taxon/', function (Request $request, Response $response, array $args
         $search_type = "exact"; // default search_type
     }
     
-    $this->logger->info("Route /taxon/ filter[name]=$name search_type=$search_type");
+    ($this->mylog)("NEW Route /taxon/ filter[name]=$name search_type=$search_type");
 
     require_once "taxon_model.php";
-    $taxon = new Taxon($this->get('db'), $this->logger);
+    $taxon = new Taxon($this->get('db'), $this->mylog);
     $taxonData = $taxon->fetchName($name, FALSE, $search_type);
     
+    ($this->mylog)("END");
     header('Content-Type: application/json');
     return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
 });

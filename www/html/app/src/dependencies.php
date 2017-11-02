@@ -18,6 +18,27 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+// Customized logger: Wraps monolog adding time elapsed from beginning of the script (using $startTime from index.php)
+$container['mylog'] = function ($c) {
+    $settings = $c->get('settings')['logger'];
+    $logger = new Monolog\Logger($settings['name']);
+    $logger->pushProcessor(new Monolog\Processor\UidProcessor());
+    $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
+
+    $mylog = function($msg) use ($logger) {
+        if (strpos($msg, "NEW") === 0) {
+            $logger->info("----------------------------------------");
+            $msg = trim(substr($msg, 3)); 
+        }
+        global $startTime;
+        $timeSoFar = microtime(TRUE) - $startTime;
+        $logger->info($timeSoFar . " : " . $msg);
+    };
+
+    return $mylog;
+};
+
+
 // Database
 
 $container['db'] = function ($c) {

@@ -3,14 +3,14 @@
 Class Taxon
 {
     var $db;
-    var $logger;
+    var $mylog;
     
 	// ------------------------------------------------------------------------
 	// Constructor	
-	public function __construct($db, $logger)
+	public function __construct($db, $mylog)
 	{
         $this->db = $db;
-        $this->logger = $logger;
+        $this->mylog = $mylog;
     }
 
     public function fetchTaxon($id, $withParent = TRUE) {
@@ -25,7 +25,8 @@ Class Taxon
         $statement = $this->db->prepare($sql);
         $statement->bindValue(":id", $id, PDO::PARAM_INT);
         $statement->execute();
-        $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMIT set to $limit");
+
+        ($this->mylog)("Query matched " . $statement->rowCount() . " rows, LIMIT set to $limit");
         
         // Can potentially return multiple taxa having (incorrectly) the same id
         $taxa = Array();        
@@ -61,7 +62,8 @@ Class Taxon
             $statement->bindValue(":name", $name, PDO::PARAM_INT);
         }
         $statement->execute();
-        $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMIT set to $limit");
+
+        ($this->mylog)("Query matched " . $statement->rowCount() . " rows, LIMIT set to $limit");        
 
         $taxa = Array();
         while ($row = $statement->fetch()) {
@@ -89,7 +91,8 @@ Class Taxon
                 ";
                 $statement = $this->db->prepare($sql);
                 $statement->execute();
-                $this->logger->info("Parent query with taxon '" . $taxon['Genus'] . "' matched " . $statement->rowCount() . " rows, LIMIT set to 1");
+
+                ($this->mylog)("Parent query with taxon '" . $taxon['Genus'] . "' matched " . $statement->rowCount() . " rows, LIMIT set to 1");
                 $parentData = $statement->fetch(); // Expecting only one row
                 
                 $attributes['parent']['id'] = $parentData['MSW_ID'];
@@ -109,7 +112,7 @@ Class Taxon
                 ";
                 $statement = $this->db->prepare($sql);
                 $statement->execute();
-                $this->logger->info("Rubin query with name '" . $taxon['SpeciesBinomial'] . "' matched " . $statement->rowCount() . " rows, LIMIT set to 1");
+                ($this->mylog)("Rubin query with name '" . $taxon['SpeciesBinomial'] . "' matched " . $statement->rowCount() . " rows, LIMIT set to 1");                
                 $rubinData = $statement->fetch(); // Expecting only one row
                 
                 $attributes['rubin_number'] = $rubinData['RUBINNO'];
