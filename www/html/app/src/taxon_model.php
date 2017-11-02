@@ -77,7 +77,8 @@ Class Taxon
 
         foreach ($taxa as $key => $taxon) {
             if ($withParent) {
-
+//                $taxon['Genus'] = "debug"; // debug
+                
                 // Parent taxon
                 $sql = "
                     SELECT *
@@ -88,13 +89,32 @@ Class Taxon
                 ";
                 $statement = $this->db->prepare($sql);
                 $statement->execute();
+                $this->logger->info("Parent query with taxon '" . $taxon['Genus'] . "' matched " . $statement->rowCount() . " rows, LIMIT set to 1");
                 $parentData = $statement->fetch(); // Expecting only one row
                 
                 $attributes['parent']['id'] = $parentData['MSW_ID'];
                 $attributes['parent']['scientific_name'] = $parentData['Genus'];
                 $attributes['parent']['rank'] = strtolower($parentData['TaxonLevel']);
             }
-        
+
+            $withRubin = TRUE;
+            if ($withRubin) {
+                // Rubin number
+//                $taxon['SpeciesBinomial'] = "debug"; // debug
+                $sql = "
+                    SELECT RUBINNO
+                    FROM mammal_rubin
+                    WHERE SPECIES LIKE '" . $taxon['SpeciesBinomial'] . "'
+                    LIMIT 1
+                ";
+                $statement = $this->db->prepare($sql);
+                $statement->execute();
+                $this->logger->info("Rubin query with name '" . $taxon['SpeciesBinomial'] . "' matched " . $statement->rowCount() . " rows, LIMIT set to 1");
+                $rubinData = $statement->fetch(); // Expecting only one row
+                
+                $attributes['rubin_number'] = $rubinData['RUBINNO'];
+            }
+                
             // Higher taxa
             $attributes['higherTaxa']['order'] = ucfirst(strtolower($taxon['Order']));
             $attributes['higherTaxa']['suborder'] = ucfirst(strtolower($taxon['Suborder']));

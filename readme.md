@@ -86,6 +86,7 @@ Copy from temp to production table:
         SET be.`SpeciesBinomial` = fdb.`speciesBinomial`;
         ;
 
+
 ## Example requests:
 
 - http://localhost:90/taxon/13001562 // House mouse
@@ -100,7 +101,78 @@ Copy from temp to production table:
 
 ## TODO
 
-- Check if msw duplicates
-- Add handling for nonmatching id's and names
-- Add rubin codes
 - Blueprint & validation with Dredd
+
+## Notes on the API
+
+- When an attribute (e.g. Rubin number or parent taxon) is not found, should the element in the API
+        - contain null
+        - contain empty string
+        - be removed
+        - be notified about in meta section (e.g. an array of missing fields)
+- If taxon requested by id is not a species (e.g. 10300002), taxon data is returned except for
+        - correct parent hierarchy (always starting from subgenus)
+        - parent (fetched by genus name)
+        - rubin number (fetched by species binomial name)
+- Taxon name search searches only by species name. Extending search to other ranks would require either multiple database queries (try species, if not found try genus, if not found try family...), or restructuring the database (id, name, rank, parent -format).
+
+
+## Notes on the data
+
+MSW id's don't contain duplicates.
+
+Rubinno's contain following duplicates (id, number of duplicates):
+
+        8165139	8
+        5100906	7
+        8160333	4
+        7350903	3
+        8162706	3
+        8163006	3
+        8163609	3
+        50303	2
+        3060303	2
+        3065506	2
+        5150903	2
+        5520606	2
+        5520903	2
+        7250312	2
+        7250318	2
+        7550618	2
+        7700306	2
+        7700903	2
+        7800303	2
+        7801503	2
+        8160351	2
+        8160378	2
+        8160903	2
+        8162106	2
+        8162415	2
+        8162709	2
+        8163909	2
+        8163921	2
+        8164209	2
+        8165112	2
+        8168703	2
+        8169609	2
+        8300318	2
+        8650303	2
+
+Number of species in each classification:
+
+        SELECT COUNT(*)
+        FROM mammal_msw
+        WHERE TaxonLevel = "SPECIES"
+        -- 5416
+
+        SELECT COUNT(*)
+        FROM mammal_rubin
+        WHERE RANK = "SPECIES"
+        -- 1473
+
+        SELECT COUNT(*)
+        FROM mammal_msw
+        INNER JOIN mammal_rubin ON mammal_msw.SpeciesBinomial = mammal_rubin.SPECIES
+        WHERE TaxonLevel = "SPECIES"
+        -- 1456
+
