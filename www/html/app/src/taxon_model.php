@@ -29,31 +29,32 @@ Class Taxon
         return $this->taxonToJSONAPIArray($taxon, $withParent);
     }
 
-    public function fetchName($name, $withParent = TRUE, $search_type = "full") {
+    public function fetchName($name, $withParent = TRUE, $search_type) {
 
+        $limit = 10;
         if ("partial" == $search_type) {
             $sql = "
                 SELECT *
                 FROM mammal_msw
                 WHERE SpeciesBinomial LIKE :name
-                LIMIT 100
+                LIMIT $limit
             ";
             $statement = $this->db->prepare($sql);
             $statement->bindValue(":name", ('%'.$name.'%'), PDO::PARAM_INT);
         }
-        else {
+        elseif ("exact" == $search_type) {
             $sql = "
                 SELECT *
                 FROM mammal_msw
                 WHERE SpeciesBinomial=:name
-                LIMIT 100
+                LIMIT $limit
                 ";
+//            exit($sql . $search_type . $name); // debug
             $statement = $this->db->prepare($sql);
             $statement->bindValue(":name", $name, PDO::PARAM_INT);
         }
         $statement->execute();
-        $this->logger->info("Query matched " . $statement->rowCount() . " rows");
-
+        $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMITing to $limit");
         $taxon = $statement->fetch(); // Expecting only one row, so taking only the first
 
 //        exit(print_r($taxon)); // debug
@@ -63,6 +64,7 @@ Class Taxon
 
     public function taxonToJSONAPIArray($taxon, $withParent) {
         if ("SPECIES" == $taxon['TaxonLevel']) {
+            $limit = 1;
 
             if ($withParent) {
 
@@ -72,10 +74,11 @@ Class Taxon
                     FROM mammal_msw
                     WHERE TaxonLevel = 'GENUS'
                     AND Genus = '" . $taxon['Genus'] . "'
-                    LIMIT 1
+                    LIMIT $limit
                 ";
                 $statement = $this->db->prepare($sql);
                 $statement->execute();
+                $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMITing to $limit");
                 $parentData = $statement->fetch(); // Expecting only one row
                 
                 $attributes['parent']['id'] = $parentData['MSW_ID'];
