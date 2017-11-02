@@ -14,24 +14,30 @@ Class Taxon
     }
 
     public function fetchTaxon($id, $withParent = TRUE) {
+        $limit = 1;
+
         $sql = "
             SELECT *
             FROM mammal_msw
             WHERE MSW_ID=:id
-            LIMIT 1
+            LIMIT $limit
         ";
         $statement = $this->db->prepare($sql);
         $statement->bindValue(":id", $id, PDO::PARAM_INT);
         $statement->execute();
+        $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMITing to $limit");
+        
+        // Can potentially return multiple taxa having (incorrectly) the same id
+        while ($row = $statement->fetch()) {
+            $taxa[] = $row;            
+        }
 
-        $taxon = $statement->fetch(); // Expecting only one row
-
-        return $this->taxonToJSONAPIArray($taxon, $withParent);
+        return $this->taxonToJSONAPIArray($taxa, $withParent);
     }
 
     public function fetchName($name, $withParent = TRUE, $search_type) {
-
         $limit = 10;
+
         if ("partial" == $search_type) {
             $sql = "
                 SELECT *
@@ -55,17 +61,17 @@ Class Taxon
         }
         $statement->execute();
         $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMITing to $limit");
-        $taxon = $statement->fetch(); // Expecting only one row, so taking only the first
 
-//        exit(print_r($taxon)); // debug
+        while ($row = $statement->fetch()) {
+            $taxa[] = $row;            
+        }
 
-        return $this->taxonToJSONAPIArray($taxon, $withParent);        
+        return $this->taxonToJSONAPIArray($taxa, $withParent);        
     }
 
-    public function taxonToJSONAPIArray($taxon, $withParent) {
-        if ("SPECIES" == $taxon['TaxonLevel']) {
-            $limit = 1;
-
+    public function taxonToJSONAPIArray($taxa, $withParent) {
+        $taxonN = 0;
+        foreach ($taxa as $key => $taxon) {
             if ($withParent) {
 
                 // Parent taxon
@@ -74,11 +80,10 @@ Class Taxon
                     FROM mammal_msw
                     WHERE TaxonLevel = 'GENUS'
                     AND Genus = '" . $taxon['Genus'] . "'
-                    LIMIT $limit
+                    LIMIT 1
                 ";
                 $statement = $this->db->prepare($sql);
                 $statement->execute();
-                $this->logger->info("Query matched " . $statement->rowCount() . " rows, LIMITing to $limit");
                 $parentData = $statement->fetch(); // Expecting only one row
                 
                 $attributes['parent']['id'] = $parentData['MSW_ID'];
@@ -128,15 +133,17 @@ Class Taxon
 
             // Other data
             $attributes['sort_order'] = $taxon['SortOrder'];
-            
+
+            $res['data'][$taxonN]['type'] = "taxon";
+            $res['data'][$taxonN]['id'] = $taxon['MSW_ID'];
+            $res['data'][$taxonN]['attributes'] = $attributes;     
+
+            $taxonN++;
         }
     //    $attributes = $taxon; // debug - see full data from db
 
         $res['jsonapi']['version'] = "1.0";
         $res['meta']['Source'] = "Mammal Species of the World";
-        $res['data']['type'] = "taxon";
-        $res['data']['id'] = $taxon['MSW_ID'];
-        $res['data']['attributes'] = $attributes; 
 
         return $res;
     }
