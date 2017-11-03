@@ -1,0 +1,87 @@
+FORMAT: 1A
+HOST: http://localhost:90/
+
+# DINA Taxonomy API
+
+API that displays taxonomy data.
+
+Data structures are described as MSON, see https://github.com/apiaryio/mson
+
+Todo:
+- allowed enum values?
+- default values?
+
+
+# Group Taxon
+
+## Taxon Collection [/taxon/]
+
+### Get a Taxon [GET /taxon/{taxon_id}]
+
++ Parameters
+    - taxon_id: http://mtags.se/NS.123 (number, required) - ID of the taxon (integer)
+
++ Response 200 (application/json)
+    - Attributes
+        - data (array[taxon], required)
+        - meta (meta, required)
+        - jsonapi (jsonapi, required)
+
+### Search by a taxon name [GET /taxon/filter%5BscientificName%5D={scientific_name}&search_type={search_type}]
+
++ Parameters
+    - scientific_name: Mus musculus (string, required) - Scientific name to be searched
+    - search_type: exact (string) - Search type. Default: exact
+
++ Response 200 (application/json)
+    - Attributes
+        - data (array[taxon], required)
+        - meta (meta, required)
+        - jsonapi (jsonapi, required)
+
+# Data Structures
+
+## taxon (object)
+
+- type: taxon (string, required) - Type of the resource, always taxon on this endpoint
+- id: http://mtags.se/NS.123 (string, required) - Identifier of the taxon
+- attributes (object, required)
+    - rubin_number: 9472966 (number) - Rubin number of the taxon
+    - rank: species (string, required) - Taxonomical rank of the taxon
+    - scientific_name: Mus musculus (string, required) - Scientific name of the taxon
+    - author: Linnaeus (string) - Author of the scientific name
+    - author_date: 1758 (string) - Author year of the scientif name
+    - valid_name: true (boolean) - Is the name taxonomically valid
+    - sort_order 30-01562 (string) - Sort order string of the taxon
+    - parent (object)
+        - id: http://mtags.se/NS.456 (string) - Identifier of the parent taxon
+        - scientific_name: Mus (string) - Scientif name of the parent taxon
+        - rank: genus - Rank of the parent taxon
+    - higherTaxa (object)
+        - kingdom: Animalia (string)
+        - phylum: Chordata (string)
+        - subphylum: Vertebrata (string)
+        - class: Mammalia (string)
+        - order: Rodentia (string)
+        - suborder: Myomorpha (string)
+        - infraorder: Placeholder (string)
+        - superfamily: Muroidea (string)
+        - family: Muridae (string)
+        - subfamily: Murinae (string)
+        - tribe: Placeholder (string)
+        - genus: Mus (string)
+        - subgenus: Mus (string)
+    - vernacular_names (object)
+        - en (array)
+            - House Mouse (string)
+            - Common Mouse (string)
+
+
+## meta (object)
+
+- source: Mammal Species of the World (string) - Source of the taxon data
+- number_of_records_returned: 1 (number, required) - Number of records contained in the results. API may limit the maximum number of records retuned.
+
+## jsonapi (object)
+
+- version: 1.0 (string, required) - JSON-API version used
