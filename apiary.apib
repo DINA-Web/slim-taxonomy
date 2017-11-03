@@ -15,32 +15,49 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 ### Get a Taxon [GET /taxon/{taxon_id}]
 
 + Parameters
-    - taxon_id: http://mtags.se/NS.123 (number) - ID of the taxon (integer)
+    - taxon_id: http://mtags.se/NS.123 (number, required) - ID of the taxon (integer)
 
 + Response 200 (application/json)
     - Attributes
-        - data (array[taxon])
-        - meta (meta)
-        - jsonapi (jsonapi)
+        - data (array[taxon], required)
+        - meta (meta, required)
+        - jsonapi (jsonapi, required)
+
+### Search by a taxon name [GET /taxon/filter%5BscientificName%5D={scientific_name}&search_type={search_type}]
+
++ Parameters
+    - scientific_name: Mus musculus (string, required) - Scientific name to be searched
+    - search_type: exact (string) - Search type. Default: exact
+
++ Response 200 (application/json)
+    - Attributes
+        - data (array[taxon], required)
+        - meta (meta, required)
+        - jsonapi (jsonapi, required)
 
 # Data Structures
 
 ## taxon (object)
 
-- type: taxon (string) - Type of the resource, always taxon on this endpoint
-- id: http://mtags.se/NS.123 (string) - Identifier of the taxon
-- attributes (object)
+- type: taxon (string, required) - Type of the resource, always taxon on this endpoint
+- id: http://mtags.se/NS.123 (string, required) - Identifier of the taxon
+- attributes (object, required)
     - rubin_number: 9472966 (number) - Rubin number of the taxon
-    - rank: species (string) - Taxonomical rank of the taxon
-    - scientific_name: Mus musculus (string) - Scientific name of the taxon
+    - rank: species (string, required) - Taxonomical rank of the taxon
+    - scientific_name: Mus musculus (string, required) - Scientific name of the taxon
     - author: Linnaeus (string) - Author of the scientific name
     - author_date: 1758 (string) - Author year of the scientif name
     - valid_name: true (boolean) - Is the name taxonomically valid
+    - sort_order 30-01562 (string) - Sort order string of the taxon
     - parent (object)
         - id: http://mtags.se/NS.456Ch (string) - Identifier of the parent taxon
         - scientific_name: Mus (string) - Scientif name of the parent taxon
         - rank: genus - Rank of the parent taxon
     - higherTaxa (object)
+        - kingdom: Animalia (string)
+        - phylum: Chordata (string)
+        - subphylum: Vertebrata (string)
+        - class: Mammalia (string)
         - order: Rodentia (string)
         - suborder: Myomorpha (string)
         - infraorder: Placeholder (string)
