@@ -15,7 +15,7 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 ### Get a Taxon [GET /taxon/{taxon_id}]
 
 + Parameters
-    - taxon_id: 123 (number) - ID of the taxon (integer)
+    - taxon_id: http://mtags.se/NS.123 (number) - ID of the taxon (integer)
 
 + Response 200 (application/json)
     - Attributes
@@ -28,16 +28,16 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 ## taxon (object)
 
 - type: taxon (string) - Type of the resource, always taxon on this endpoint
-- id: 123 (string) - Identifier of the taxon
+- id: http://mtags.se/NS.123 (string) - Identifier of the taxon
 - attributes (object)
-    - rubin_number: 456 (number) - Rubin number of the taxon
+    - rubin_number: 9472966 (number) - Rubin number of the taxon
     - rank: species (string) - Taxonomical rank of the taxon
     - scientific_name: Mus musculus (string) - Scientific name of the taxon
     - author: Linnaeus (string) - Author of the scientific name
     - author_date: 1758 (string) - Author year of the scientif name
     - valid_name: true (boolean) - Is the name taxonomically valid
     - parent (object)
-        - id: 13001537 (string) - Identifier of the parent taxon
+        - id: http://mtags.se/NS.456Ch (string) - Identifier of the parent taxon
         - scientific_name: Mus (string) - Scientif name of the parent taxon
         - rank: genus - Rank of the parent taxon
     - higherTaxa (object)
