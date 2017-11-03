@@ -1,80 +1,51 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://localhost:90/
 
-# DINA Taxonomy API v2017-11
+# DINA Taxonomy API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+API that displays taxonomy data.
 
-## Questions Collection [/questions]
+Data structures are described as MSON, see https://github.com/apiaryio/mson
 
-### List All Questions [GET]
+
+# Group Taxon
+
+## Taxon Collection [/taxon/]
+
+### Get a Taxon [GET /taxon/{taxon_id}]
+
++ Parameters
+    - taxon_id: 123 (number) - ID of the taxon (integer)
 
 + Response 200 (application/json)
+    - Attributes
+        - data (array[taxon])
+        - meta (meta)
+        - jsonapi (jsonapi)
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
+# Data Structures
 
-### Create a New Question [POST]
+## taxon (object)
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+- type: taxon (string) - Type of the resource, always taxon on this endpoint
+- id: 123 (string) - Identifier of the taxon
+- attributes (object)
+    - rubin_number: 456 (number) - Rubin number of the taxon
+    - rank: species (string) - Taxonomical rank of the taxon
+    - scientific_name: Mus musculus (string) - Scientific name of the taxon
+    - author: Linnaeus (string) - Author of the scientific name
+    - author_date: 1758 (string) - Author year of the scientif name
+    - valid_name: true (boolean) - Is the name taxonomically valid
+    - parent (object)
+        - id: 13001537 (string) - Identifier of the parent taxon
+        - scientific_name: Mus (string) - Scientif name of the parent taxon
+        - rank: genus - Rank of the parent taxon
 
-+ Request (application/json)
+## meta (object)
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
+- source: Mammal Species of the World (string) - Source of the taxon data
+- number_of_records_returned: 1 (number) - Number of records contained in the results. API may limit the maximum number of records retuned.
 
-+ Response 201 (application/json)
+## jsonapi (object)
 
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+- version: 1.0 (string) - JSON-API version used
