@@ -31,7 +31,7 @@ $container['mylog'] = function ($c) {
             $msg = trim(substr($msg, 3)); 
         }
         global $startTime;
-        $timeSoFar = microtime(TRUE) - $startTime;
+        $timeSoFar = round(microtime(TRUE) - $startTime, 3);
         $logger->info($timeSoFar . " : " . $msg);
     };
 
