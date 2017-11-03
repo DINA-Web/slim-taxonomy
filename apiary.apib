@@ -7,6 +7,10 @@ API that displays taxonomy data.
 
 Data structures are described as MSON, see https://github.com/apiaryio/mson
 
+Todo:
+- allowed enum values?
+- default values?
+
 
 # Group Taxon
 
@@ -50,7 +54,7 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
     - valid_name: true (boolean) - Is the name taxonomically valid
     - sort_order 30-01562 (string) - Sort order string of the taxon
     - parent (object)
-        - id: http://mtags.se/NS.456Ch (string) - Identifier of the parent taxon
+        - id: http://mtags.se/NS.456 (string) - Identifier of the parent taxon
         - scientific_name: Mus (string) - Scientif name of the parent taxon
         - rank: genus - Rank of the parent taxon
     - higherTaxa (object)
