@@ -16,8 +16,12 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
     $taxonData = $taxon->fetchTaxon($id);
     
     ($this->mylog)("END");
-    header('Content-Type: application/json');
-    return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
+
+    $response = $response->withJson($taxonData);
+    return $response;
+//    $response = $response->withHeader('Content-type', 'application/json; charset=utf-8');    
+//    header("Content-type: application/json; charset=utf-8");
+//    return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
 
     // Render index view
 //    return $this->renderer->render($response, 'index.phtml', $args);
@@ -41,8 +45,11 @@ $app->get('/taxon/', function (Request $request, Response $response, array $args
     $taxonData = $taxon->fetchName($name, FALSE, $search_type);
     
     ($this->mylog)("END");
-    header('Content-Type: application/json');
-    return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
+
+    $response = $response->withJson($taxonData);
+    return $response;
+//    header("Content-type: application/json; charset=utf-8");
+//    return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
 });
 
 $app->get('/taxonsearch/{name}', function (Request $request, Response $response, array $args) {
