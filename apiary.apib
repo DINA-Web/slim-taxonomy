@@ -19,7 +19,7 @@ Todo:
 ### Get a Taxon [GET /taxon/{taxon_id}]
 
 + Parameters
-    - taxon_id: http://mtags.se/NS.123 (number, required) - ID of the taxon (integer)
+    - taxon_id: 13001562 (string, required) - ID of the taxon (integer)
 
 + Response 200 (application/json)
     - Attributes
@@ -44,7 +44,7 @@ Todo:
 ## taxon (object)
 
 - type: taxon (string, required) - Type of the resource, always taxon on this endpoint
-- id: http://mtags.se/NS.123 (string, required) - Identifier of the taxon
+- id: 13001562 (string, required) - Identifier of the taxon
 - attributes (object, required)
     - rubin_number: 9472966 (number) - Rubin number of the taxon
     - rank: species (string, required) - Taxonomical rank of the taxon
@@ -54,7 +54,7 @@ Todo:
     - valid_name: true (boolean) - Is the name taxonomically valid
     - sort_order 30-01562 (string) - Sort order string of the taxon
     - parent (object)
-        - id: http://mtags.se/NS.456 (string) - Identifier of the parent taxon
+        - id: 13001537 (string) - Identifier of the parent taxon
         - scientific_name: Mus (string) - Scientif name of the parent taxon
         - rank: genus - Rank of the parent taxon
     - higherTaxa (object)
