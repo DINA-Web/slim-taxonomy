@@ -80,11 +80,11 @@ Copy data to temp table:
 
 Copy from temp to production table:
 
-
         UPDATE `mammal_msw` be
         JOIN `binomialTemp` fdb ON fdb.`MSW_ID` = be.`MSW_ID`
         SET be.`SpeciesBinomial` = fdb.`speciesBinomial`;
         ;
+
 
 
 ## Example requests:
