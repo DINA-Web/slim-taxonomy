@@ -1,0 +1,12 @@
+version: '3.1'
+# To rebuild:
+# docker-compose up --build
+
+services:
+
+    dredd:
+        build: .
+        image: mikkohei13/dredd:0.1
+        volumes:
+            - ./home:/home
+
