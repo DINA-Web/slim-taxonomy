@@ -76,7 +76,7 @@ Copy from temp to production table:
 
 Database dumps:
 
-        mysqldump -u taxonomyuser -p taxonomy > taxonomy1.sql
+        mysqldump -u taxonomyuser -p --databases taxonomy > taxonomy1.sql
 
 ### Slim Setup
 

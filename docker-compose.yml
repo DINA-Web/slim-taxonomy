@@ -15,7 +15,7 @@ services:
         ports:
             - 3306:3306
         volumes:
-#            - ./mysqldump:/docker-entrypoint-initdb.d # Directory to load sql files from. Remember to create this dir first.
+            - ./mysqldump:/docker-entrypoint-initdb.d # Directory to load SQL files to setup the database
             - mysql-slim-taxonomy:/var/lib/mysql
 
     backend:
