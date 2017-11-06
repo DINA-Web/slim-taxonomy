@@ -46,17 +46,21 @@ Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon li
 - How to format the URL if taxon id contains slashes? (e.g. http-uri)
 -MSW contains somewhat messy data. Now part of this is cleaned in the API
         - Uppercase order etc. names to lowercase
-        - HTML in some fields (<i> removed)
+        - HTML in some fields (`<i>` removed)
         - Synonyms cannot be parsed trivially, since the field has diverse contents
         - Missing ranks: Marsupialia, Mammalia
 
 ## TODO
 
+### For mockup:
+
 - Validation with Dredd
-- Setup MySQL database from dump file
-- Documentaton for setup
-- Documentation for validation
-        - Replace docker-compose with a simple makefile docker build command
+        - Documentation for validation
+- Replace docker-compose with a simple makefile docker build command
+
+### For more stable use:
+
+- Package as Docker Hub image, with proper directory permissions
 - Clean up synonyms. Currently synonym field is truncated.
 
 ## Dev notes
