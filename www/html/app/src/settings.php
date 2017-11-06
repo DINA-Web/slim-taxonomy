@@ -1,4 +1,8 @@
 <?php
+
+// Get database settings from an environment variable file
+$envMysql = parse_ini_file("../../../../env/.env-mysql");
+
 return [
     'settings' => [
         'displayErrorDetails' => true, // set to false in production
@@ -19,9 +23,12 @@ return [
         // Database settings
         'db' => [
             'host'   => "db",
-            'user'   => "taxonomyuser",
-            'pass'   => "fishFliesToMarsIn2020",
-            'dbname' => "taxonomy",
+//            'user'   => "taxonomyuser",
+//            'pass'   => "fishFliesToMarsIn2020",
+//            'dbname' => "taxonomy",
+            'user'   => $envMysql['MYSQL_USER'],
+            'pass'   => $envMysql['MYSQL_PASSWORD'],
+            'dbname' => $envMysql['MYSQL_DATABASE'],
         ],
     ],
 ];
