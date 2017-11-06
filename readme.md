@@ -5,18 +5,28 @@ Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon li
 
 ## Setup (UNTESTED)
 
-- Pull from Github
+- `git clone https://github.com/mikkohei13/slim-taxonomy.git`
 - Set up credentials to env/.env-mysql
 - `docker-compose up`
+- Install dependencies with composer
+        - log in to backend container (`docker exec -ti` ...)
+        - `cd /var/www/html/app`
+        - `composer install`
+        - `exit`
+        - `chown -R user:group www/html/app/vendor`
+- `chmod www/html/app/logs a+w`
+- Change mysql password to `/home/mikko/code/slim-taxonomy/www/html/app/src/settings.php`
+- Access the service with following example requests:
 
-## Example requests:
+### Example requests:
 
 - http://localhost:90/taxon/13001562 // House mouse
 - http://localhost:90/taxon/10300011 // Sir David's... without synonyms
 
 - http://localhost:90/taxon/?filter[name]=Mus%20mus&search_type=partial
 - http://localhost:90/taxon/?filter[name]=Mus%20musculus&search_type=exact
-- http://localhost:90/taxon/?filter[name]=Mus%20musculus // defaults to exact
+- http://localhost:90/taxon/?filter[name]=Mus%20musculus // search_type defaults to exact
+- http://localhost:90/taxon/?filter[name]=Mus%20mus // no results with this exact name
 
 - http://localhost:90/taxon/123 // nonexistent id
 - http://localhost:90/taxon/?filter[name]=Foo%20bar&search_type=exact // nonexistent name
@@ -76,7 +86,7 @@ Copy from temp to production table:
 
 Database dumps:
 
-        mysqldump -u taxonomyuser -p --databases taxonomy > taxonomy1.sql
+        mysqldump -u taxonomyuser -p taxonomy > taxonomy1.sql
 
 ### Slim Setup
 
