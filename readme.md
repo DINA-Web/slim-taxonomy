@@ -14,7 +14,7 @@ Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon li
   - `composer install`
   - `exit`
   - `chown -R user:group www/html/app/vendor`
-  - `chmod www/html/app/logs a+w`
+  - `chmod a+w www/html/app/logs`
 - Access the service with following example requests
 
 ### Upgrade
@@ -85,6 +85,8 @@ Possible alternative format for the API:
 
 - Package as Docker Hub image, with proper directory permissions
 - Clean up synonyms. Currently synonym field is truncated.
+- Production install instructions
+- Review of permission settings
 
 ## Dev notes
 
