@@ -8,13 +8,13 @@ Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon li
 - `git clone https://github.com/mikkohei13/slim-taxonomy.git`
 - Set up credentials to env/.env-mysql
 - `docker-compose up`
-- Install dependencies with composer
-        - log in to backend container (`docker exec -ti` ...)
-        - `cd /var/www/html/app`
-        - `composer install`
-        - `exit`
-        - `chown -R user:group www/html/app/vendor`
-- `chmod www/html/app/logs a+w`
+- Install dependencies with composer & set up permissions
+  - log in to backend container (`docker exec -ti` ...)
+  - `cd /var/www/html/app`
+  - `composer install`
+  - `exit`
+  - `chown -R user:group www/html/app/vendor`
+  - `chmod www/html/app/logs a+w`
 - Access the service with following example requests
 
 ### Upgrade
