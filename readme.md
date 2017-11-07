@@ -15,7 +15,11 @@ Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon li
         - `exit`
         - `chown -R user:group www/html/app/vendor`
 - `chmod www/html/app/logs a+w`
-- Access the service with following example requests:
+- Access the service with following example requests
+
+### Upgrade
+
+- `docker-compose down`, `git pull` & `docker-compose up` if db has not changed
 
 ### Example requests:
 
@@ -54,6 +58,7 @@ Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon li
 
 ### For mockup:
 
+- Pygmy mouse vernacular name problem
 - Validation with Dredd
         - Documentation for validation
 - Replace docker-compose with a simple makefile docker build command
