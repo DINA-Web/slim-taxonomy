@@ -50,6 +50,24 @@ Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon li
         - Synonyms cannot be parsed trivially, since the field has diverse contents
         - Missing ranks: Marsupialia, Mammalia
 
+Possible alternative format for the API:
+
+        taxon
+                id
+                name
+                rank ...
+                parents
+                        2
+                                id: 2
+                                name
+                                rank ...
+                children
+                        3
+                                id: 3
+                                name
+                                rank ...
+
+
 ## TODO
 
 ### For mockup:
