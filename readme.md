@@ -1,7 +1,7 @@
 
 # Slim Taxonomy
 
-Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon list and Rubin taxon list.
+Mockup of a taxonomy API, serving data from Mammal Species of the World taxon list and Rubin taxon list.
 
 ## Setup
 
