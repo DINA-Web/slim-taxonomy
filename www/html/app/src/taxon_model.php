@@ -41,11 +41,17 @@ Class Taxon
         $limit = 10;
 
         if ("partial" == $search_type) {
+            // Note: have to include TaxonLevel if using other than SpeciesBinomial on WHERE clause, to return only species
             $sql = "
                 SELECT *
                 FROM mammal_msw
-                WHERE SpeciesBinomial LIKE :name
+                WHERE 
+                    (
+                    SpeciesBinomial LIKE :name
                     OR CommonName LIKE :name            
+                    OR Synonyms LIKE :name 
+                    )
+                    AND TaxonLevel LIKE 'SPECIES'
                 LIMIT $limit
             ";
             $statement = $this->db->prepare($sql);
@@ -149,7 +155,11 @@ Class Taxon
             }
 
             // Synonyms
+            if (! empty($taxon['Synonyms'])) {
+                $attributes['synonyms'] = $taxon['Synonyms'];
+            }
             /*
+            // Trying to parse synonyms to different fields
             if (! empty($taxon['Synonyms'])) {
                 $synonymsArrHTML = explode(";", $taxon['Synonyms']);
                 $n = 0;
