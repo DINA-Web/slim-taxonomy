@@ -45,6 +45,7 @@ Class Taxon
                 SELECT *
                 FROM mammal_msw
                 WHERE SpeciesBinomial LIKE :name
+                    OR CommonName LIKE :name            
                 LIMIT $limit
             ";
             $statement = $this->db->prepare($sql);
@@ -76,6 +77,7 @@ Class Taxon
     public function taxonToJSONAPIArray($taxa, $withParent) {
         $taxonN = 0;
         $res['data'] = Array();
+        $attributes = Array();
 
         foreach ($taxa as $key => $taxon) {
             if ($withParent) {
@@ -167,6 +169,7 @@ Class Taxon
             $res['data'][$taxonN]['id'] = $taxon['MSW_ID'];
             $res['data'][$taxonN]['attributes'] = $attributes;     
 
+            unset($attributes);
             $taxonN++;
         }
     //    $attributes = $taxon; // debug - see full data from db

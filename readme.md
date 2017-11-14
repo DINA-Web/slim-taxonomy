@@ -3,7 +3,7 @@
 
 Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon list and Rubin taxon list.
 
-## Setup (UNTESTED)
+## Setup
 
 - `git clone https://github.com/mikkohei13/slim-taxonomy.git`
 - Set up credentials to env/.env-mysql
@@ -17,7 +17,7 @@ Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon li
   - `chmod a+w www/html/app/logs`
 - Access the service with following example requests
 
-### Upgrade
+### Upgrade (UNTESTED)
 
 - `docker-compose down`, `git pull` & `docker-compose up` if db has not changed
 
@@ -36,7 +36,8 @@ Mockup of a taxonomy API, serving data from Mammal Species of the Workl taxon li
 
 ## Notes on the API
 
-- Only works with species rank
+- Only works with species rank. Including other ranks should either modify the SQL to query from multiple columns (like for common name), or modifying the database structure so that scientific name is in one column irregards of rank.
+- Searches from both scientific binomial name and common name
 - When an attribute (e.g. Rubin number or parent taxon) is not found, should the element in the API
         - contain null
         - contain empty string
