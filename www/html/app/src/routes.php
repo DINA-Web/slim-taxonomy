@@ -3,6 +3,8 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+require_once "error_handler.php";
+
 // Routes
 
 // Get single taxon by id
@@ -30,6 +32,9 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
 // Search taxa by name
 $app->get('/taxon/', function (Request $request, Response $response, array $args) {
     $filter = $request->getQueryParam('filter'); // TODO: data security - does this sanitize the string?
+    if (!isset($filter['name']) || empty($filter['name'])) {
+        return returnError("Missing required parameter filter[name]", $response);
+    }
     $name = $filter['name'];
 
     $search_type = $request->getQueryParam('search_type');
