@@ -3,18 +3,11 @@
 
 Mockup of a taxonomy API, serving data from Mammal Species of the World taxon list and Rubin taxon list.
 
-## Setup
+## Setup (partly tested)
 
-- `git clone https://github.com/mikkohei13/slim-taxonomy.git`
+- `git clone https://github.com/DINA-Web/slim-taxonomy.git`
 - Set up credentials to env/.env-mysql
-- `docker-compose up`
-- Install dependencies with composer & set up permissions
-  - log in to backend container (`docker exec -ti` ...)
-  - `cd /var/www/html/app`
-  - `composer install`
-  - `exit`
-  - `chown -R user:group www/html/app/vendor`
-  - `chmod a+w www/html/app/logs`
+- `docker-compose up --build`
 - Access the service with following example requests
 
 ### Upgrade (UNTESTED)
