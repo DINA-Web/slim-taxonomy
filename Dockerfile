@@ -23,7 +23,11 @@ RUN docker-php-ext-install pdo pdo_mysql
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
-# Add Composer packages
+# Add App
+ADD ./www /var/www
+WORKDIR /var/www/html/app/
+RUN composer install
+RUN chmod a+w /var/www/html/app/logs
 #RUN composer require slim/slim "^3.0" # runs, but files are not there!?
 
 # Enable mod rewrite
