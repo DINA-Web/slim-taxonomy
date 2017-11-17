@@ -18,7 +18,7 @@ services:
             - mysql-slim-taxonomy:/var/lib/mysql
 
     backend:
-        build: .
+        #build: .
         image: dina/slim-taxonomy:0.2
         ports:
             - 90:80

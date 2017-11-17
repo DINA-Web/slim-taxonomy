@@ -1,4 +1,7 @@
 www/html/vendor/*
-env/.env-mysql
 www/html/app/src/settings.php
 local-data/*
+
+env/.env-mysql
+
+*~
