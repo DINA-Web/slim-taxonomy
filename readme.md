@@ -189,3 +189,5 @@ Number of species in each classification:
         WHERE TaxonLevel = "SPECIES"
         -- 1456
 
+# GOTCHA
+A note that if you change user/password env variables, they won't be taken into account on restart, unless you first delete the local data directory: "none of the variables below will have any effect if you start the container with a data directory that already contains a database: any pre-existing database will always be left untouched on container startup." ...and the pre-existing database is persisted on the host.
