@@ -1,7 +1,6 @@
-
-# Use root/example as user/password credentials
 version: '3'
 
+# Use root/example as user/password credentials
 # To rebuild:
 # docker-compose up --build
 
@@ -16,8 +15,10 @@ services:
             - mysql-slim-taxonomy:/var/lib/mysql
 
     backend:
-        build: .
-        image: dina/slim-taxonomy:0.2
+        #build: .
+        image: ${IMAGE}:${TAG}
+        env_file:
+            - .env
         ports:
             - 90:80
         volumes:

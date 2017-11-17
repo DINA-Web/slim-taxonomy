@@ -1,7 +1,6 @@
-
-# Use root/example as user/password credentials
 version: '3'
 
+# Use root/example as user/password credentials
 # To rebuild:
 # docker-compose up --build
 
@@ -17,7 +16,9 @@ services:
 
     backend:
         build: .
-        image: dina/slim-taxonomy:0.2
+        image: ${IMAGE}:${TAG}
+        env_file:
+            - .env
         ports:
             - 90:80
 #        environment: # copied from slim, what's this for?
