@@ -27,7 +27,9 @@ services:
 #            docker: "true"
         volumes:
             - ./www:/var/www
+            - vendorfiles-slim-taxonomy:/var/www/html/app/vendor
             - ./env:/var/env
 
 volumes:
     mysql-slim-taxonomy:
+    vendorfiles-slim-taxonomy:
