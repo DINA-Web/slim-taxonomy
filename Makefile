@@ -1,20 +1,19 @@
 #!make
 PWD=$(shell pwd)
-DOCKER_IMAGE=dina/slim-taxonomy
-DOCKERHUB_VER=0.2
+include .env
 
 all: init up
 
 .PHONY: all
 
 init:
-	@echo "Running version ${DOCKER_IMAGE}:${DOCKERHUB_VER}"
+	@echo "Running version ${MAGE}:${TAG}"
 	sleep 2;
 
 build:
-	@docker build -t ${DOCKER_IMAGE}:${DOCKERHUB_VER} .
+	@docker build -t ${IMAGE}:${TAG} .
 
-up:
+up: build
 	@docker-compose up -d
 
 up-dev:
@@ -27,7 +26,7 @@ down:
 	@docker-compose down
 
 release: #docker login
-	@docker push -t ${DOCKER_IMAGE}:${DOCKERHUB_VER}
+	@docker push -t ${IMAGE}:${TAG}
 
 test-locally:
 	xdg-open http://localhost:90/taxon/13001562
