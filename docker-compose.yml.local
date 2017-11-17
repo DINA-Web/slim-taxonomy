@@ -1,6 +1,6 @@
 
 # Use root/example as user/password credentials
-version: '2'
+version: '3'
 
 # To rebuild:
 # docker-compose up --build
@@ -11,14 +11,12 @@ services:
         image: mysql:5.7
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         env_file: ./env/.env-mysql
-        #ports:
-        #    - 3306:3306
         volumes:
-            - ./mysqldump:/docker-entrypoint-initdb.d # Directory to load SQL files to setup the database
+            - ./mysqldump:/docker-entrypoint-initdb.d
             - mysql-slim-taxonomy:/var/lib/mysql
 
     backend:
-        #build: .
+        build: .
         image: dina/slim-taxonomy:0.2
         ports:
             - 90:80
