@@ -1,14 +1,23 @@
 
 # Slim Taxonomy
 
-Mockup of a taxonomy API, serving data from Mammal Species of the World taxon list and Rubin taxon list.
+Mockup of a taxonomy API, serving readonly data from Mammal Species of the World taxon list and Rubin taxon list in JSON-API format.
+
+The purpose of this API is to **A)** support development of Collections module before a production-ready API is created, and **B)** support design of the production API.
+
+Alpha service: https://alpha-slimtaxonomy.dina-web.net/
 
 ## Setup (partly tested)
 
 - `git clone https://github.com/DINA-Web/slim-taxonomy.git`
 - Set up credentials to env/.env-mysql
 - `docker-compose up --build`
-- Access the service with following example requests
+- Access the service example requests below
+
+### GOTCHAs
+
+- If you change user/password env variables, they won't be taken into account on restart, unless you first emove the local data volume: "none of the variables below will have any effect if you start the container with a data directory that already contains a database: any pre-existing database will always be left untouched on container startup."
+- Same with creating tha database with mysqldump: the database is only created using the dump file if it does not already exist.
 
 ### Upgrade (UNTESTED)
 
@@ -26,6 +35,7 @@ Mockup of a taxonomy API, serving data from Mammal Species of the World taxon li
 
 - http://localhost:90/taxon/123 // nonexistent id
 - http://localhost:90/taxon/?filter[name]=Foo%20bar&search_type=exact // nonexistent name
+
 
 ## Notes on the API
 
@@ -65,30 +75,38 @@ Possible alternative format for the API:
                                 name
                                 rank ...
 
-
 ## TODO
 
 ### For mockup:
 
-- Pygmy mouse vernacular name problem
-- Validation with Dredd
-        - Documentation for validation
-- Replace docker-compose with a simple makefile docker build command
+- Replace docker-compose with a simple makefile docker build command?
 
 ### For more stable use:
 
+- Validation with Dredd
+        - Documentation for validation
 - Package as Docker Hub image, with proper directory permissions
-- Clean up synonyms. Currently synonym field is truncated.
-- Production install instructions
+- Clean up data, at least synonyms. Currently synonym field is truncated.
+- Production install instructions update
 - Review of permission settings
 
 ## Dev notes
 
-Import with DataGrip
+Notes that might be useful for developers of this service.
+
+### Data import & export
+
+Import data with DataGrip
 - Importing Extinct to TINYINT UNSIGNED failed, but converting the column to VARCHAR(5), importing data and then converting the column back to TINYINT UNSIGNED worked.
 
 Import with DBeaver
 - Imports only some fields, complains field truncation even if field lengths are ok
+
+Database dumps:
+
+        mysqldump -u taxonomyuser -p taxonomy > taxonomy1.sql
+
+### Adding binomial species names to mammal_msw table:
 
 Copy data to temp table:
 
@@ -106,11 +124,7 @@ Copy from temp to production table:
         SET be.`SpeciesBinomial` = fdb.`speciesBinomial`;
         ;
 
-Database dumps:
-
-        mysqldump -u taxonomyuser -p taxonomy > taxonomy1.sql
-
-### Slim Setup
+### Slim framework initial setup
 
 Go inside Docker to container /var/www/html directory and run 
 
@@ -130,9 +144,16 @@ Allow writing to monolog directory
 
 Data is imported from Mammal Species of the World taxon list and Rubin list with only minor modifications.
 
-Synonym field of MSW is messy, and truncated in the database.
+
+### Mammal Species of the World
+
+Synonym field of MSW is messy, and curently truncated in the database.
+
+Not all the taxa have all ranks included in the data.
 
 MSW id's don't contain duplicates.
+
+### Rubin list
 
 Rubinno's contain following duplicates (id, number of occurrences):
 
@@ -171,7 +192,7 @@ Rubinno's contain following duplicates (id, number of occurrences):
         8300318	2
         8650303	2
 
-Number of species in each classification:
+### Number of species in each classification:
 
         SELECT COUNT(*)
         FROM mammal_msw
@@ -188,6 +209,3 @@ Number of species in each classification:
         INNER JOIN mammal_rubin ON mammal_msw.SpeciesBinomial = mammal_rubin.SPECIES
         WHERE TaxonLevel = "SPECIES"
         -- 1456
-
-# GOTCHA
-A note that if you change user/password env variables, they won't be taken into account on restart, unless you first delete the local data directory: "none of the variables below will have any effect if you start the container with a data directory that already contains a database: any pre-existing database will always be left untouched on container startup." ...and the pre-existing database is persisted on the host.
