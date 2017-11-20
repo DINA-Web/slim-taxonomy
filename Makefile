@@ -7,7 +7,7 @@ all: init up
 .PHONY: all
 
 init:
-	@echo "Running version ${MAGE}:${TAG}"
+	@echo "Running the docker ${IMAGE}:${TAG}"
 	sleep 2;
 
 build:
@@ -28,8 +28,11 @@ down:
 release: #docker login
 	@docker push -t ${IMAGE}:${TAG}
 
-test-locally:
+browser-locally:
 	xdg-open http://localhost:90/taxon/13001562
+
+browser-test:
+	xdg-open https://alpha-slimtaxonomy.dina-web.net/taxon/13001562
 
 logs:
 	@docker-compose logs -f --tail=20
