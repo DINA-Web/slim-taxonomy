@@ -1,9 +1,7 @@
-version: '3'
+version: '3.1'
 
 # Use root/example as user/password credentials
-# To rebuild:
-# docker-compose up --build
-
+# To rebuild: docker-compose up --build
 services:
 
     db:
@@ -15,10 +13,12 @@ services:
             - mysql-slim-taxonomy:/var/lib/mysql
 
     backend:
-        build: .
+        #build: .
         image: ${IMAGE}:${TAG}
         env_file:
             - .env
+        environment:
+            - VIRTUAL_HOST=alpha-slimtaxonomy.dina-web.net
         ports:
             - 90:80
 #        environment: # copied from slim, what's this for?
@@ -28,6 +28,11 @@ services:
             #- vendorfiles-slim-taxonomy:/var/www/html/app/vendor
             - ./env:/var/env
 
+networks:
+  default:
+    external:
+      name: dwproxy_default
+
 volumes:
     mysql-slim-taxonomy:
-    vendorfiles-slim-taxonomy:
+    #vendorfiles-slim-taxonomy:
