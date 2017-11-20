@@ -1,9 +1,13 @@
-
 # Slim Taxonomy
 
 Mockup of a taxonomy API, serving readonly data from Mammal Species of the World taxon list and Rubin taxon list in JSON-API format.
 
-The purpose of this API is to **A)** support development of Collections module before a production-ready API is created, and **B)** support design of the production API.
+
+The purpose of this API is to 
+
+* **A)** support development of Collections module before a production-ready API is created, and 
+* **B)** support design of the production API.
+
 
 Alpha service: https://alpha-slimtaxonomy.dina-web.net/
 

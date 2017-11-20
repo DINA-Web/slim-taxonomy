@@ -5,3 +5,4 @@ local-data/*
 env/.env-mysql
 
 *~
+readme.html
