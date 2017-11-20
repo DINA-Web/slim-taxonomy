@@ -2,10 +2,12 @@
 
 Mockup of a taxonomy API, serving readonly data from Mammal Species of the World taxon list and Rubin taxon list in JSON-API format.
 
+
 The purpose of this API is to 
 
 * **A)** support development of Collections module before a production-ready API is created, and 
 * **B)** support design of the production API.
+
 
 Alpha service: https://alpha-slimtaxonomy.dina-web.net/
 
@@ -211,4 +213,3 @@ Rubinno's contain following duplicates (id, number of occurrences):
         INNER JOIN mammal_rubin ON mammal_msw.SpeciesBinomial = mammal_rubin.SPECIES
         WHERE TaxonLevel = "SPECIES"
         -- 1456
-
