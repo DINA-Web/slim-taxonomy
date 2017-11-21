@@ -1,5 +1,6 @@
 #!make
-PWD=$(shell pwd)
+# documentation here, https://github.com/DINA-Web/slim-taxonomy
+
 include .env
 
 all: init up
@@ -8,7 +9,8 @@ all: init up
 
 init:
 	@echo "Running the docker ${IMAGE}:${TAG}"
-	sleep 2;
+	@test -f env/.env-mysql || (cp env/template.env-mysql env/.env-mysql && echo "OBS : created the file env/.env-mysql - please fill in the values")
+	@sleep 2;
 
 build:
 	@docker build -t ${IMAGE}:${TAG} .
@@ -28,11 +30,11 @@ down:
 release: #docker login
 	@docker push -t ${IMAGE}:${TAG}
 
-browser-locally:
-	xdg-open http://localhost:90/taxon/13001562
+test-localhost_domain:
+	xdg-open http://localhost:90/taxon/13001562 &
 
-browser-test:
-	xdg-open https://alpha-slimtaxonomy.dina-web.net/taxon/13001562
+test-alpha_domain:
+	xdg-open https://alpha-slimtaxonomy.dina-web.net/taxon/13001562 &
 
 logs:
 	@docker-compose logs -f --tail=20
