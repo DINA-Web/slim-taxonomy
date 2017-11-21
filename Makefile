@@ -9,7 +9,7 @@ all: init up
 
 init:
 	@echo "Running the docker ${IMAGE}:${TAG}"
-	@test -f env/.env-mysql || (cp env/template.env-mysql env/.env-mysql && echo "OBS : created the file env/.env-mysql - please fill in the values")
+	@test -f env/.env-mysql || (cp env/template.env-mysql env/.env-mysql && echo "OBS : created the file env/.env-mysql - please fill in the credentials")
 	@sleep 2;
 
 build:
