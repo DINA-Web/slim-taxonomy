@@ -13,7 +13,7 @@ COPY config/php.ini /usr/local/etc/php/
 # Add tools
 RUN apt-get update && \
 apt-get -y upgrade && \
-apt-get -y install unzip zlib1g-dev nano #git
+apt-get -y install unzip zlib1g-dev nano
 
 # Add php extensions / modules
 RUN docker-php-ext-install zip
