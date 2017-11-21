@@ -11,17 +11,19 @@ The purpose of this API is to
 
 Alpha service: https://alpha-slimtaxonomy.dina-web.net/
 
-## Setup (partly tested)
+## Setup
 
 - `git clone https://github.com/DINA-Web/slim-taxonomy.git`
-- Set up credentials to env/.env-mysql
-- `docker-compose up --build`
+- Set up the credentials in the file env/.env-mysql
+- `make`
 - Access the service example requests below
 
 ### GOTCHAs
 
 - If you change user/password env variables, they won't be taken into account on restart, unless you first emove the local data volume: "none of the variables below will have any effect if you start the container with a data directory that already contains a database: any pre-existing database will always be left untouched on container startup."
 - Same with creating tha database with mysqldump: the database is only created using the dump file if it does not already exist.
+- dw-proxy : if using https, run with the reverse-proxy `https://github.com/DINA-Web/proxy-docker/` ( branch 'compose-version3') with network `dwproxy_default`
+
 
 ### Upgrade (UNTESTED)
 
