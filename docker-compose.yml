@@ -1,6 +1,5 @@
 version: '3.1'
 
-# using the dw-proxy ( hooking up to the network dwproxy_default)
 # Use root/example as user/password credentials
 # To rebuild: docker-compose up --build
 services:
@@ -26,6 +25,7 @@ services:
         volumes:
             - ./env:/var/env
 
+# using the dw-proxy (hooking up to the network dwproxy_default)
 networks:
   default:
     external:
