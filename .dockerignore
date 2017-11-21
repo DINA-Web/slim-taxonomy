@@ -1,0 +1,5 @@
+dredd
+env
+mysqldump
+.git
+.env
