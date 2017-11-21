@@ -21,8 +21,8 @@ services:
             - .env
         environment:
             - VIRTUAL_HOST=alpha-slimtaxonomy.dina-web.net
-        ports:
-            - 90:80
+        #ports:
+        #   - 90:80
         volumes:
             - ./env:/var/env
 
