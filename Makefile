@@ -27,8 +27,8 @@ stop:
 down:
 	@docker-compose down
 
-release: #docker login
-	@docker push -t ${IMAGE}:${TAG}
+release: #docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+	@docker push ${IMAGE}:${TAG}
 
 test-localhost_domain:
 	xdg-open http://localhost:90/taxon/13001562 &
