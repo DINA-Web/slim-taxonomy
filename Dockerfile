@@ -1,8 +1,3 @@
-# Build this with docker-compose or using following commands
-# docker build -t mikkohei13/php-slim:0.1 .
-# docker push -t mikkohei13/php-slim:VERSION-NUMBER
-# (See version numbers/tags at Docker Hub: XXX)
-
 FROM php:7.1-apache
 
 WORKDIR /var/www/html/
