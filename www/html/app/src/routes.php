@@ -30,7 +30,7 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
 });
 
 // Search taxa by name
-$app->get('/taxon/', function (Request $request, Response $response, array $args) {
+$app->get('/taxon', function (Request $request, Response $response, array $args) {
     $filter = $request->getQueryParam('filter'); // TODO: data security - does this sanitize the string?
     if (!isset($filter['name']) || empty($filter['name'])) {
         return returnError("Missing required parameter filter[name]", $response);
@@ -43,7 +43,7 @@ $app->get('/taxon/', function (Request $request, Response $response, array $args
         $search_type = "exact"; // default search_type
     }
     
-    ($this->mylog)("NEW Route /taxon/ filter[name]=$name search_type=$search_type");
+    ($this->mylog)("NEW Route /taxon filter[name]=$name search_type=$search_type");
 
     require_once "taxon_model.php";
     $taxon = new Taxon($this->get('db'), $this->mylog);
