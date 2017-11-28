@@ -57,24 +57,15 @@ $app->get('/taxon/', function (Request $request, Response $response, array $args
 //    return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
 });
 
-$app->get('/taxonsearch/{name}', function (Request $request, Response $response, array $args) {
-    /*
-    $name = $request->getAttribute('name'); // TODO: data security - does this sanitize the string?
+$app->get('/', function (Request $request, Response $response, array $args) {
 
-    $filter = $request->getQueryParam('filter'); // TODO: data security - does this sanitize the string?
-    $search_type = $filter['search_type'];
+    $root = Array();
+    $root["taxon_by_id"] = "/taxon/{id}";
+    $root["taxon_by_name"] = "/taxon?filter['name']={name}&search_type=exact";
 
-    $this->logger->info("Route /taxonsearch/$name");
-
-    require_once "taxon_model.php";
-    $taxon = new Taxon($this->get('db'));
-    $taxonData = $taxon->fetchName($name, FALSE, $search_type);
+    $response = $response->withJson($root);
+    return $response;
     
-    header('Content-Type: application/json');
-    return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
-*/
-    // Render index view
-//    return $this->renderer->render($response, 'index.phtml', $args);
 });
 
 
