@@ -23,9 +23,6 @@ return [
         // Database settings
         'db' => [
             'host'   => "db",
-//            'user'   => "taxonomyuser",
-//            'pass'   => "fishFliesToMarsIn2020",
-//            'dbname' => "taxonomy",
             'user'   => $envMysql['MYSQL_USER'],
             'pass'   => $envMysql['MYSQL_PASSWORD'],
             'dbname' => $envMysql['MYSQL_DATABASE'],
