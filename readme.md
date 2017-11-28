@@ -81,18 +81,15 @@ Possible alternative format for the API:
 
 ## TODO
 
-### For mockup:
+### Could do for more stable use:
 
-- Replace docker-compose with a simple makefile docker build command?
-
-### For more stable use:
-
-- Validation with Dredd
-        - Documentation for validation
+- Testing and validation
 - Package as Docker Hub image, with proper directory permissions
 - Clean up data, at least synonyms. Currently synonym field is truncated.
-- Production install instructions update
 - Review of permission settings
+- Data security - does Slim auto-sanitize user input?
+- Fuzzy search?
+- Lucene terms for search_type:s, as discussed in May 2017?
 
 ## Dev notes
 
