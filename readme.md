@@ -141,6 +141,25 @@ Allow writing to monolog directory
 
         chmod a+w /var/www/html/app/logs/app.log
 
+### Misc
+
+Hack to log database connection
+
+        $loggerSettings['name'] = 'slim-app';
+        $loggerSettings['path'] = isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log';
+        $loggerSettings['level'] = \Monolog\Logger::DEBUG;
+
+        $settings = $loggerSettings;
+        $logger = new Monolog\Logger($settings['name']);
+        $logger->pushProcessor(new Monolog\Processor\UidProcessor());
+        $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
+
+        ...
+
+        global $logger;
+        $logger->addInfo("DB ".$connectionString);
+
+
 ## Notes on the data
 
 Data is imported from Mammal Species of the World taxon list and Rubin list with only minor modifications.
