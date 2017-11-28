@@ -38,15 +38,18 @@ $container['mylog'] = function ($c) {
     return $mylog;
 };
 
-
 // Database
-
 $container['db'] = function ($c) {
     $db = $c['settings']['db'];
-    $pdo = new PDO("mysql:host=" . $db['host'] . ";dbname=" . $db['dbname'] . ";charset=utf8mb4",
-        $db['user'], $db['pass']);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    $connectionString = "mysql:host=" . $db['host'] . ";dbname=" . $db['dbname'] . ";charset=utf8mb4";
+
+    $options = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    ];
+
+    $pdo = new PDO($connectionString, $db['user'], $db['pass'], $options);
+
     return $pdo;
 };
 
