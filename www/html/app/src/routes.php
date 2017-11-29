@@ -21,12 +21,6 @@ $app->get('/taxon/{id}', function (Request $request, Response $response, array $
 
     $response = $response->withJson($taxonData);
     return $response;
-//    $response = $response->withHeader('Content-type', 'application/json; charset=utf-8');    
-//    header("Content-type: application/json; charset=utf-8");
-//    return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
-
-    // Render index view
-//    return $this->renderer->render($response, 'index.phtml', $args);
 });
 
 // Search taxa by name
@@ -53,8 +47,6 @@ $app->get('/taxon', function (Request $request, Response $response, array $args)
 
     $response = $response->withJson($taxonData);
     return $response;
-//    header("Content-type: application/json; charset=utf-8");
-//    return json_encode($taxonData, JSON_HEX_QUOT | JSON_HEX_TAG); // Converts " < and >"
 });
 
 $app->get('/', function (Request $request, Response $response, array $args) {
