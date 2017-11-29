@@ -6,6 +6,7 @@ services:
 
     db:
         image: mysql:5.7
+        container_name: slim-taxonomy-db
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         env_file: ./env/.env-mysql
         volumes:
@@ -15,6 +16,7 @@ services:
     backend:
         build: .
         image: dina/slim-taxonomy:local
+        container_name: slim-taxonomy-backend
 #        env_file:
 #            - .env
         environment:

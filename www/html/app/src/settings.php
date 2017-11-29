@@ -22,7 +22,7 @@ return [
 
         // Database settings
         'db' => [
-            'host'   => "db",
+            'host'   => "slim-taxonomy-db",
 //            'user'   => "taxonomyuser",
 //            'pass'   => "fishFliesToMarsIn2020",
 //            'dbname' => "taxonomy",
