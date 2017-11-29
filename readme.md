@@ -18,16 +18,25 @@ Alpha service: https://alpha-slimtaxonomy.dina-web.net/
 - `docker-compose up --build`
 - Access the service example requests below
 
-### GOTCHAs
+### Running on your local host
+
+The slim-taxonomy service is tied to the 'dwproxy_default'-network
+
+- /etc/hosts , add alpha-slimtaxonomy.dina-web.net 
+- start the dw-proxy ( `https://github.com/DINA-Web/proxy-docker`, branch 'compose-version3')
+- - creates the 'dwproxy_default'-network
+
+
+## GOTCHAs
 
 - If you change user/password env variables, they won't be taken into account on restart, unless you first emove the local data volume: "none of the variables below will have any effect if you start the container with a data directory that already contains a database: any pre-existing database will always be left untouched on container startup."
 - Same with creating tha database with mysqldump: the database is only created using the dump file if it does not already exist.
 
-### Upgrade (UNTESTED)
+## Upgrade (UNTESTED)
 
 - `docker-compose down`, `git pull` & `docker-compose up` if db has not changed
 
-### Example requests:
+## Example requests:
 
 - http://localhost:90/taxon/13001562 // House mouse
 - http://localhost:90/taxon/10300011 // Sir David's... without synonyms
