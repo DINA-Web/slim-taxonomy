@@ -81,18 +81,15 @@ Possible alternative format for the API:
 
 ## TODO
 
-### For mockup:
+### Could do for more stable use:
 
-- Replace docker-compose with a simple makefile docker build command?
-
-### For more stable use:
-
-- Validation with Dredd
-        - Documentation for validation
+- Testing and validation
 - Package as Docker Hub image, with proper directory permissions
 - Clean up data, at least synonyms. Currently synonym field is truncated.
-- Production install instructions update
 - Review of permission settings
+- Data security - does Slim auto-sanitize user input?
+- Fuzzy search?
+- Lucene terms for search_type:s, as discussed in May 2017?
 
 ## Dev notes
 
@@ -143,6 +140,25 @@ Exit container and give rights to your user
 Allow writing to monolog directory
 
         chmod a+w /var/www/html/app/logs/app.log
+
+### Misc
+
+Hack to log database connection
+
+        $loggerSettings['name'] = 'slim-app';
+        $loggerSettings['path'] = isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log';
+        $loggerSettings['level'] = \Monolog\Logger::DEBUG;
+
+        $settings = $loggerSettings;
+        $logger = new Monolog\Logger($settings['name']);
+        $logger->pushProcessor(new Monolog\Processor\UidProcessor());
+        $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
+
+        ...
+
+        global $logger;
+        $logger->addInfo("DB ".$connectionString);
+
 
 ## Notes on the data
 
