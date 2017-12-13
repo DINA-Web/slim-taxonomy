@@ -136,6 +136,7 @@ Class Taxon
             $attributes['higherTaxa']['tribe'] = $taxon['Tribe'];
             $attributes['higherTaxa']['genus'] = $taxon['Genus'];
             $attributes['higherTaxa']['subgenus'] = $taxon['Subgenus'];
+            $attributes['higherTaxa'] = array_filter($attributes['higherTaxa']);
 
             // Taxon
             $attributes['rank'] = strtolower($taxon['TaxonLevel']);
@@ -177,7 +178,7 @@ Class Taxon
 
             $res['data'][$taxonN]['type'] = "taxon";
             $res['data'][$taxonN]['id'] = $taxon['MSW_ID'];
-            $res['data'][$taxonN]['attributes'] = $attributes;     
+            $res['data'][$taxonN]['attributes'] = array_filter($attributes);     
 
             unset($attributes);
             $taxonN++;
@@ -187,7 +188,7 @@ Class Taxon
         $res['jsonapi']['version'] = "1.0";
         $res['meta']['source'] = "Mammal Species of the World";
         $res['meta']['number_of_records_returned'] = $taxonN;
-        
+    
         return $res;
     }
 }
