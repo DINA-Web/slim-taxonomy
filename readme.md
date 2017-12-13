@@ -32,13 +32,13 @@ Alpha service: https://alpha-slimtaxonomy.dina-web.net/
 - http://localhost:90/taxon/13001562 // House mouse
 - http://localhost:90/taxon/10300011 // Sir David's... without synonyms
 
-- http://localhost:90/taxon/?filter[name]=Mus%20mus&search_type=partial
-- http://localhost:90/taxon/?filter[name]=Mus%20musculus&search_type=exact
-- http://localhost:90/taxon/?filter[name]=Mus%20musculus // search_type defaults to exact
-- http://localhost:90/taxon/?filter[name]=Mus%20mus // no results with this exact name
+- http://localhost:90/taxon?filter[name]=Mus%20mus&search_type=partial
+- http://localhost:90/taxon?filter[name]=Mus%20musculus&search_type=exact
+- http://localhost:90/taxon?filter[name]=Mus%20musculus // search_type defaults to exact
+- http://localhost:90/taxon?filter[name]=Mus%20mus // no results with this exact name
 
 - http://localhost:90/taxon/123 // nonexistent id
-- http://localhost:90/taxon/?filter[name]=Foo%20bar&search_type=exact // nonexistent name
+- http://localhost:90/taxon?filter[name]=Foo%20bar&search_type=exact // nonexistent name
 
 
 ## Notes on the API
