@@ -152,7 +152,7 @@ Class Taxon
             }
 
             if (!empty($taxon["CommonName"])) {
-                $attributes['verncular_names']['en'][] = $taxon["CommonName"];
+                $attributes['vernacular_names']['en'][] = $taxon["CommonName"];
             }
 
             // Synonyms
