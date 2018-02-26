@@ -93,3 +93,8 @@ Could do for more stable use:
 - Review of permission settings
 - Data security - does Slim auto-sanitize user input?
 
+## Examples
+
+- https://alpha-slimtaxonomy.dina-web.net/taxon/14200208
+- https://alpha-slimtaxonomy.dina-web.net/taxon?filter[name]=Alces%20alces&search_type=exact
+- https://alpha-slimtaxonomy.dina-web.net/taxon?filter[name]=Alc&search_type=partial
