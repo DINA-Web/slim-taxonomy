@@ -6,3 +6,4 @@ env/.env-mysql
 
 *~
 readme.html
+.DS_Store
