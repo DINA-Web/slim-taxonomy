@@ -1,3 +1,9 @@
+# Depricated
+
+Slim taxonomy is depricated and migrate to [dina collections](https://github.com/DINA-Web/dina-collections). see [API docs](https://alpha-api.dina-web.net/docs#/taxonService/getTaxaByName) or the [service implementation](https://github.com/DINA-Web/dina-collections/tree/master/packages/backend/src/services/taxonService)
+
+
+
 # Slim Taxonomy
 
 Mockup of a taxonomy API, serving readonly data from Mammal Species of the World taxon list and Rubin taxon list in JSON-API format.
