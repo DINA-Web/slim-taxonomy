@@ -1,6 +1,6 @@
-# Depricated
+# DEPRECATED
 
-Slim taxonomy is depricated and migrate to [dina collections](https://github.com/DINA-Web/dina-collections). see [API docs](https://alpha-api.dina-web.net/docs#/taxonService/getTaxaByName) or the [service implementation](https://github.com/DINA-Web/dina-collections/tree/master/packages/backend/src/services/taxonService)
+Slim taxonomy is deprecated and replaced by a new service that is bundled with [dina collections](https://github.com/DINA-Web/dina-collections). See [API docs](https://alpha-api.dina-web.net/docs#/taxonService/getTaxaByName) or the [service implementation](https://github.com/DINA-Web/dina-collections/tree/master/packages/backend/src/services/taxonService)
 
 
 
