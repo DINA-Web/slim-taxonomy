@@ -127,16 +127,18 @@ Class Taxon
             }
                 
             // Higher taxa
-            $attributes['higherTaxa']['order'] = ucfirst(strtolower($taxon['Order']));
-            $attributes['higherTaxa']['suborder'] = ucfirst(strtolower($taxon['Suborder']));
-            $attributes['higherTaxa']['infraorder'] = ucfirst(strtolower($taxon['Infraorder']));
-            $attributes['higherTaxa']['superfamily'] = $taxon['Superfamily'];
-            $attributes['higherTaxa']['family'] = $taxon['Family'];
-            $attributes['higherTaxa']['subfamily'] = $taxon['Subfamily'];
-            $attributes['higherTaxa']['tribe'] = $taxon['Tribe'];
-            $attributes['higherTaxa']['genus'] = $taxon['Genus'];
-            $attributes['higherTaxa']['subgenus'] = $taxon['Subgenus'];
-            $attributes['higherTaxa'] = array_filter($attributes['higherTaxa']);
+            $attributes['higherTaxa'] = Array();
+
+            $attributes['higherTaxa'][] = $this->getParentTaxon("order", $taxon['Order']);
+            $attributes['higherTaxa'][] = $this->getParentTaxon('suborder', $taxon['Suborder']);
+            $attributes['higherTaxa'][] = $this->getParentTaxon('infraorder', $taxon['Infraorder']);
+            $attributes['higherTaxa'][] = $this->getParentTaxon('superfamily', $taxon['Superfamily']);
+            $attributes['higherTaxa'][] = $this->getParentTaxon('family', $taxon['Family']);
+            $attributes['higherTaxa'][] = $this->getParentTaxon('subfamily', $taxon['Subfamily']);
+            $attributes['higherTaxa'][] = $this->getParentTaxon('tribe', $taxon['Tribe']);
+            $attributes['higherTaxa'][] = $this->getParentTaxon('genus', $taxon['Genus']);
+            $attributes['higherTaxa'][] = $this->getParentTaxon('subgenus', $taxon['Subgenus']);
+            $attributes['higherTaxa'] = array_values(array_filter($attributes['higherTaxa']));
 
             // Taxon
             $attributes['rank'] = strtolower($taxon['TaxonLevel']);
@@ -190,5 +192,15 @@ Class Taxon
         $res['meta']['number_of_records_returned'] = $taxonN;
     
         return $res;
+    }
+
+    function getParentTaxon($rank, $name) {
+        if ("" == $name) {
+            return null;
+        }
+        $ret = Array();
+        $ret['rank'] = $rank;
+        $ret['name'] = ucfirst(strtolower($name));
+        return $ret;
     }
 }
